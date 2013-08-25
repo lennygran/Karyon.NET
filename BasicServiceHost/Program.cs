@@ -19,6 +19,7 @@ namespace BasicServiceHost
         {
             Karyon.EurekaIntegration.ApplicationLifecycleController netflixoss = null;
             HttpSelfHostServer server = null;
+            bool registered = false;
 
             System.Diagnostics.Trace.Listeners.Add(new System.Diagnostics.ConsoleTraceListener(true));
 
@@ -26,11 +27,15 @@ namespace BasicServiceHost
             {
                 //register application at Eureka service.
                 netflixoss = Karyon.EurekaIntegration.ApplicationLifecycleController.CreateInstance();
-                netflixoss.RegisterApplicationInstance();
+                registered = netflixoss.RegisterApplicationInstance();
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Exception: " + ex.ToString());
+            }
+
+            if (!registered)
+            {
                 Console.WriteLine("Press Enter to quit.");
                 Console.ReadLine();
                 if (netflixoss != null)

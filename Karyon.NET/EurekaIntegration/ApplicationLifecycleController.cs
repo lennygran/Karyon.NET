@@ -66,9 +66,9 @@ namespace Karyon.EurekaIntegration
         /// <summary>
         /// Method registers application instance to eureka service.
         /// </summary>
-        public void RegisterApplicationInstance()
+        public bool RegisterApplicationInstance()
         {
-            this.RegisterApplicationInstance(null);
+            return this.RegisterApplicationInstance(null);
         }
 
         /// <summary>
@@ -77,12 +77,18 @@ namespace Karyon.EurekaIntegration
         /// <param name="healthCheck">External function performing additional validation for the service health. 
         /// Function must return boolean value indicating the service health. 
         /// If FALSE value returned, then no HEALTHY heartbeat is being sent.</param>
-        public void RegisterApplicationInstance(Func<bool> healthCheck)
+        /// <returns>Returns boolean indicator of success.</returns>
+        public bool RegisterApplicationInstance(Func<bool> healthCheck)
         {
+            bool result = false;
             try
             {
                 Trace.TraceInformation("Registering instance with EUREKA service...");
-                Task.Run(() => this.eureka.Register(DataCenterMetadata)).Wait();
+                {
+                    Task<bool> task = Task.Run(() => this.eureka.Register(DataCenterMetadata));
+                    task.Wait();
+                    result = task.Result;
+                }
 
                 Trace.TraceInformation("Initializing instance heartbeat...");
                 this.heartbeat = new HeartbeatObserver(this.eureka, this.DataCenterMetadata);
@@ -98,45 +104,67 @@ namespace Karyon.EurekaIntegration
                     this.heartbeat.StopTimer();
                 throw ex;
             }
+            return result;
         }
 
         /// <summary>
         /// Method unregisters application instance from eureka service.
         /// </summary>
-        public void UnregisterApplicationInstance()
+        /// <returns>Returns boolean indicator of success.</returns>
+        public bool UnregisterApplicationInstance()
         {
+            bool result = false;
             if (this.eureka != null)
-                Task.Run(() => this.eureka.Unregister(DataCenterMetadata)).Wait();
+            {
+                Task<bool> task = Task.Run(() => this.eureka.Unregister(DataCenterMetadata));
+                task.Wait();
+                result = task.Result;
+            }
             else
                 throw new Exception("Current Eureka client is not initialized. This is probably due to incorrect object state.");
             if (this.heartbeat != null)
                 this.heartbeat.StopTimer();
+            return result;
         }
 
         /// <summary>
         /// Method takes application instance out of service at the eureka service.
         /// </summary>
-        public void TakeInstanceOutOfService()
+        /// <returns>Returns boolean indicator of success.</returns>
+        public bool TakeInstanceOutOfService()
         {
+            bool result = false;
             if (this.eureka != null)
-                Task.Run(() => this.eureka.TakeInstanceOutOfService(DataCenterMetadata)).Wait();
+            {
+                Task<bool> task = Task.Run(() => this.eureka.TakeInstanceOutOfService(DataCenterMetadata));
+                task.Wait();
+                result = task.Result;
+            }
             else
                 throw new Exception("Current Eureka client is not initialized. This is probably due to incorrect object state.");
             if (this.heartbeat != null)
                 this.heartbeat.StopTimer();
+            return result;
         }
 
         /// <summary>
         /// Method takes application instance back to service at the eureka service.
         /// </summary>
-        public void PutInstanceToService()
+        /// <returns>Returns boolean indicator of success.</returns>
+        public bool PutInstanceToService()
         {
+            bool result = false;
             if (this.eureka != null)
-                Task.Run(() => this.eureka.PutInstanceToService(DataCenterMetadata)).Wait();
+            {
+                Task<bool> task = Task.Run(() => this.eureka.PutInstanceToService(DataCenterMetadata));
+                task.Wait();
+                result = task.Result;
+            }
             else
                 throw new Exception("Current Eureka client is not initialized. This is probably due to incorrect object state.");
             if (this.heartbeat != null)
                 this.heartbeat.StartTimer();
+            return result;
         }
 
         /// <summary>

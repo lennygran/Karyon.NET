@@ -9,10 +9,10 @@ namespace Karyon.EurekaIntegration
         int ApplicationPort { get; set; }
         int ApplicationSecurePort { get; set; }
         string EurekaPath { get; set; }
-        Task PutInstanceToService(DataCenterMetadata dcData);
-        Task Register(DataCenterMetadata dcData);
-        Task SendHeartbeat(DataCenterMetadata dcData);
-        Task TakeInstanceOutOfService(DataCenterMetadata dcData);
-        Task Unregister(DataCenterMetadata dcData);
+        Task<bool> PutInstanceToService(DataCenterMetadata dcData);
+        Task<bool> Register(DataCenterMetadata dcData);
+        Task<bool> SendHeartbeat(DataCenterMetadata dcData);
+        Task<bool> TakeInstanceOutOfService(DataCenterMetadata dcData);
+        Task<bool> Unregister(DataCenterMetadata dcData);
     }
 }

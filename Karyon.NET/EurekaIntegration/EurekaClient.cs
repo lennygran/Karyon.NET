@@ -36,7 +36,7 @@ namespace Karyon.EurekaIntegration
         //Register new application instance 
         //POST /eureka/v2/apps/appID 
         //Input: JSON/XML payload HTTP Code: 204 on success 
-        public async Task Register(DataCenterMetadata dcData)
+        public async Task<bool> Register(DataCenterMetadata dcData)
         {
             EurekaRegistrationInfo instanceData = new EurekaRegistrationInfo();
             instanceData.Instance.DataCenterInfo.Name = dcData.DataCenterName;
@@ -62,6 +62,7 @@ namespace Karyon.EurekaIntegration
                 {
                     string tmp = await response.Content.ReadAsStringAsync();
                     Trace.TraceError("Error on Register: " + tmp);
+                    return false;
                 }
                 else
                     Trace.TraceInformation("Registration completed. Status: " + response.StatusCode.ToString());
@@ -69,14 +70,15 @@ namespace Karyon.EurekaIntegration
             catch (Exception ex)
             {
                 Trace.TraceError("Exception on Register: " + ex.ToString());
+                return false;
             }
-            return;
+            return true;
         }
 
         //De-register application instance 
         //DELETE /eureka/v2/apps/appID/instanceID 
         //HTTP Code: 200 on success 
-        public async Task Unregister(DataCenterMetadata dcData)
+        public async Task<bool> Unregister(DataCenterMetadata dcData)
         {
             string url = this.EurekaRoot + "/" + dcData.InstanceId;
             try
@@ -88,6 +90,7 @@ namespace Karyon.EurekaIntegration
                 {
                     string tmp = await response.Content.ReadAsStringAsync();
                     Trace.TraceError("Exception on Unregister: " + tmp);
+                    return false;
                 }
                 else
                     Trace.TraceInformation("Unregistered successfully.");
@@ -95,8 +98,9 @@ namespace Karyon.EurekaIntegration
             catch (Exception ex)
             {
                 Trace.TraceError("Exception on Unregister: " + ex.ToString());
+                return false;
             }
-            return;
+            return true;
         }
 
         //Send application instance heartbeat 
@@ -104,7 +108,7 @@ namespace Karyon.EurekaIntegration
         //HTTP Code:
         // * 200 on success
         // * 404 if instanceID doesn’t exist 
-        public async Task SendHeartbeat(DataCenterMetadata dcData)
+        public async Task<bool> SendHeartbeat(DataCenterMetadata dcData)
         {
             string url = this.EurekaRoot + "/" + dcData.InstanceId;
             try
@@ -117,6 +121,7 @@ namespace Karyon.EurekaIntegration
                 {
                     string tmp = await response.Content.ReadAsStringAsync();
                     Trace.TraceError("Error on Heartbeat: " + tmp);
+                    return false;
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                     Trace.TraceWarning("Heartbeat failed. Instance does not exist.");
@@ -126,8 +131,9 @@ namespace Karyon.EurekaIntegration
             catch (Exception ex)
             {
                 Trace.TraceError("Exception on Heartbeat: " + ex.ToString());
+                return false;
             }
-            return;
+            return true;
         }
 
         //Take instance out of service 
@@ -135,7 +141,7 @@ namespace Karyon.EurekaIntegration
         //HTTP Code:
         // * 200 on success
         // * 500 on failure 
-        public async Task TakeInstanceOutOfService(DataCenterMetadata dcData)
+        public async Task<bool> TakeInstanceOutOfService(DataCenterMetadata dcData)
         {
             string url = this.EurekaRoot + "/" + dcData.InstanceId + "/status?value=OUT_OF_SERVICE";
             try
@@ -147,6 +153,7 @@ namespace Karyon.EurekaIntegration
                 {
                     string tmp = await response.Content.ReadAsStringAsync();
                     Trace.TraceError("Error on TakeInstanceOutOfService: " + tmp);
+                    return false;
                 }
                 else
                     Trace.TraceInformation("TakeInstanceOutOfService has been successfully submitted.");
@@ -154,8 +161,9 @@ namespace Karyon.EurekaIntegration
             catch (Exception ex)
             {
                 Trace.TraceError("Exception on TakeInstanceOutOfService: " + ex.ToString());
+                return false;
             }
-            return;
+            return true;
         }
 
         //Put instance back into service 
@@ -163,7 +171,7 @@ namespace Karyon.EurekaIntegration
         //HTTP Code:
         // * 200 on success
         // * 500 on failure 
-        public async Task PutInstanceToService(DataCenterMetadata dcData)
+        public async Task<bool> PutInstanceToService(DataCenterMetadata dcData)
         {
             string url = this.EurekaRoot + "/" + dcData.InstanceId + "/status?value=UP";
             try
@@ -175,6 +183,7 @@ namespace Karyon.EurekaIntegration
                 {
                     string tmp = await response.Content.ReadAsStringAsync();
                     Trace.TraceError("Error on TakeInstanceDown: " + tmp);
+                    return false;
                 }
                 else
                     Trace.TraceInformation("TakeInstanceDown has been successfully submitted.");
@@ -182,8 +191,9 @@ namespace Karyon.EurekaIntegration
             catch (Exception ex)
             {
                 Trace.TraceError("Exception on TakeInstanceDown: " + ex.ToString());
+                return false;
             }
-            return;
+            return true;
         }
 
         //Query for all instances 
