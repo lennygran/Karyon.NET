@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoServiceLib", "DemoServiceLib\DemoServiceLib.csproj", "{671F4659-7674-40CA-9DA0-E03A514880A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicServiceHost", "BasicServiceHost\BasicServiceHost.csproj", "{C400C736-D2E6-4BA6-89FA-BDC9DA786DD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Karyon.NET", "Karyon.NET\Karyon.NET.csproj", "{AD134E79-037F-4C0A-963E-2CA081095D9B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5A9FA08-8D79-461E-AE53-4F0B988CA957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5A9FA08-8D79-461E-AE53-4F0B988CA957}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5A9FA08-8D79-461E-AE53-4F0B988CA957}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5A9FA08-8D79-461E-AE53-4F0B988CA957}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{671F4659-7674-40CA-9DA0-E03A514880A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{671F4659-7674-40CA-9DA0-E03A514880A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{671F4659-7674-40CA-9DA0-E03A514880A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{671F4659-7674-40CA-9DA0-E03A514880A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C400C736-D2E6-4BA6-89FA-BDC9DA786DD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C400C736-D2E6-4BA6-89FA-BDC9DA786DD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C400C736-D2E6-4BA6-89FA-BDC9DA786DD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C400C736-D2E6-4BA6-89FA-BDC9DA786DD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD134E79-037F-4C0A-963E-2CA081095D9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD134E79-037F-4C0A-963E-2CA081095D9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD134E79-037F-4C0A-963E-2CA081095D9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD134E79-037F-4C0A-963E-2CA081095D9B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
