@@ -39,6 +39,7 @@ namespace Karyon.EurekaIntegration
         public async Task Register(DataCenterMetadata dcData)
         {
             EurekaRegistrationInfo instanceData = new EurekaRegistrationInfo();
+            instanceData.Instance.DataCenterInfo.Name = dcData.DataCenterName;
             instanceData.Instance.DataCenterInfo.Metadata = dcData;
             instanceData.Instance.HostName = dcData.HostName;// "ec2-50-16-138-165.compute-1.amazonaws.com";
             instanceData.Instance.App = this.ApplicationName;

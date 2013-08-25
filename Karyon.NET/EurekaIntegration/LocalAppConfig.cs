@@ -8,6 +8,9 @@ namespace Karyon.EurekaIntegration
 {
     public class LocalAppConfig
     {
+        /// <summary>
+        /// The full URL path to the Eureka service.
+        /// </summary>
         public string EurekaPath
         {
             get
@@ -15,6 +18,9 @@ namespace Karyon.EurekaIntegration
                 return System.Configuration.ConfigurationManager.AppSettings["Karyon.NET.NetflixOss.eurekaPath"].ToString();
             }
         }
+        /// <summary>
+        /// The application name. The name should not contain special symbols and/or white spaces.
+        /// </summary>
         public string ApplicationName
         {
             get
@@ -22,6 +28,9 @@ namespace Karyon.EurekaIntegration
                 return System.Configuration.ConfigurationManager.AppSettings["Karyon.NET.NetflixOss.applicationName"].ToString();
             }
         }
+        /// <summary>
+        /// The non-secure port that application should listen with its services.
+        /// </summary>
         public int ApplicationPort
         {
             get
@@ -32,6 +41,9 @@ namespace Karyon.EurekaIntegration
                 return listenToPort;
             }
         }
+        /// <summary>
+        /// The secure port that application should listen with its services. 0 means the application does not listen to secure port.
+        /// </summary>
         public int ApplicationSecurePort
         {
             get
@@ -41,6 +53,9 @@ namespace Karyon.EurekaIntegration
                 return listenToPort;
             }
         }
+        /// <summary>
+        /// A boolean flag indicated that application should listen to public IP address. If true, the public IP is used, if false, the private IP is used.
+        /// </summary>
         public bool ListenToPublic
         {
             get
@@ -51,6 +66,9 @@ namespace Karyon.EurekaIntegration
                 return listenToPublic;
             }
         }
+        /// <summary>
+        /// Gets the Data Center name.
+        /// </summary>
         public DataCenterType DataCenter
         {
             get
@@ -60,6 +78,10 @@ namespace Karyon.EurekaIntegration
                 return DataCenterType.MyOwn;
             }
         }
+
+        /// <summary>
+        /// In case when non-Amazon data center is used, the Local IP address that should be used by the application.
+        /// </summary>
         public string NonAmazonLocalIPv4
         {
             get
@@ -67,6 +89,9 @@ namespace Karyon.EurekaIntegration
                 return System.Configuration.ConfigurationManager.AppSettings["Karyon.NET.NetflixOss.nonAmazon-localIPv4"].ToString();
             }
         }
+        /// <summary>
+        /// In case when non-Amazon data center is used, the Public IP address that should be used by the application.
+        /// </summary>
         public string NonAmazonPublicIPv4
         {
             get
@@ -74,6 +99,9 @@ namespace Karyon.EurekaIntegration
                 return System.Configuration.ConfigurationManager.AppSettings["Karyon.NET.NetflixOss.nonAmazon-publicIPv4"].ToString();
             }
         }
+        /// <summary>
+        /// In case when non-Amazon data center is used, the InstanceId that should be used by the application.
+        /// </summary>
         public string NonAmazonInstanceId
         {
             get

@@ -28,6 +28,7 @@ namespace Karyon.EurekaIntegration
         {
             var taskSource = new TaskCompletionSource<DataCenterMetadata>();
             DataCenterMetadata metadata = new DataCenterMetadata();
+            metadata.DataCenterName = DataCenterType.MyOwn;
             LocalAppConfig appConfig = new LocalAppConfig();
             metadata.LocalIPv4 = appConfig.NonAmazonLocalIPv4;
             metadata.PublicIPv4 = appConfig.NonAmazonPublicIPv4;

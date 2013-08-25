@@ -163,6 +163,7 @@ namespace Karyon.EurekaIntegration
         /// </summary>
         [DataMember(Name = "instance-type")]
         public string InstanceType { get; set; }
+        public DataCenterType DataCenterName { get; set; }
 
         /// <summary>
         /// Default constructor.
@@ -180,6 +181,7 @@ namespace Karyon.EurekaIntegration
             this.HostName = "";
             this.AmiId = "";
             this.InstanceType = "";
+            this.DataCenterName = DataCenterType.Amazon;
         }
     }
 
