@@ -54,13 +54,13 @@
   <ItemGroup>
     <Compile Include="EurekaIntegration\AmazonMetadataAdapter.cs" />
     <Compile Include="EurekaIntegration\ApplicationLifecycleController.cs" />
+    <Compile Include="EurekaIntegration\KaryonConfig.cs" />
     <Compile Include="EurekaIntegration\MyOwnMetadataAdapter.cs" />
     <Compile Include="EurekaIntegration\EurekaClient.cs" />
     <Compile Include="EurekaIntegration\EurekaRegistrationInfo.cs" />
     <Compile Include="EurekaIntegration\HeartbeatObserver.cs" />
     <Compile Include="EurekaIntegration\IAmazonMetadataAdapter.cs" />
     <Compile Include="EurekaIntegration\IEurekaClient.cs" />
-    <Compile Include="EurekaIntegration\LocalAppConfig.cs" />
     <Compile Include="Healthcheck\HealthcheckController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -8,7 +8,7 @@ namespace Karyon.EurekaIntegration
         string ApplicationName { get; set; }
         int ApplicationPort { get; set; }
         int ApplicationSecurePort { get; set; }
-        string EurekaPath { get; set; }
+        string EurekaServiceUrl { get; set; }
         Task<bool> PutInstanceToService(DataCenterMetadata dcData);
         Task<bool> Register(DataCenterMetadata dcData);
         Task<bool> SendHeartbeat(DataCenterMetadata dcData);

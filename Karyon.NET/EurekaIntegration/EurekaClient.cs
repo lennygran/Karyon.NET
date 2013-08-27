@@ -10,25 +10,25 @@ namespace Karyon.EurekaIntegration
 {
     internal class EurekaClient : IEurekaClient
     {
-        public string EurekaPath { get; set; }
+        public string EurekaServiceUrl { get; set; }
         public string ApplicationName { get; set; }
         public int ApplicationPort { get; set; }
         public int ApplicationSecurePort { get; set; }
 
-        private string EurekaRoot
+        private string EurekaServiceRoot
         {
             get
             {
                 //EXAMPLE: "http://ec2-174-129-161-75.compute-1.amazonaws.com/eureka/v2/apps/BatchService"
 
-                string tmp = this.EurekaPath.EndsWith("/") ? this.EurekaPath : this.EurekaPath + "/";
+                string tmp = this.EurekaServiceUrl.EndsWith("/") ? this.EurekaServiceUrl : this.EurekaServiceUrl + "/";
                 return string.Join("", new string[] { tmp, "v2/apps/", this.ApplicationName });
             }
         }
 
         public EurekaClient()
         {
-            this.EurekaPath = "";
+            this.EurekaServiceUrl = "";
             this.ApplicationPort = 80;
             this.ApplicationName = "";
         }
@@ -51,7 +51,7 @@ namespace Karyon.EurekaIntegration
                 instanceData.Instance.SecureVipAddress = dcData.PublicIPv4;
 
             HttpClient client = null;
-            string url = this.EurekaRoot;
+            string url = this.EurekaServiceRoot;
             try
             {
                 System.Net.Http.Formatting.MediaTypeFormatter frm = new System.Net.Http.Formatting.JsonMediaTypeFormatter();
@@ -80,7 +80,7 @@ namespace Karyon.EurekaIntegration
         //HTTP Code: 200 on success 
         public async Task<bool> Unregister(DataCenterMetadata dcData)
         {
-            string url = this.EurekaRoot + "/" + dcData.InstanceId;
+            string url = this.EurekaServiceRoot + "/" + dcData.InstanceId;
             try
             {
                 HttpClient client = new HttpClient();
@@ -110,7 +110,7 @@ namespace Karyon.EurekaIntegration
         // * 404 if instanceID doesn’t exist 
         public async Task<bool> SendHeartbeat(DataCenterMetadata dcData)
         {
-            string url = this.EurekaRoot + "/" + dcData.InstanceId;
+            string url = this.EurekaServiceRoot + "/" + dcData.InstanceId;
             try
             {
                 HttpClient client = new HttpClient();
@@ -143,7 +143,7 @@ namespace Karyon.EurekaIntegration
         // * 500 on failure 
         public async Task<bool> TakeInstanceOutOfService(DataCenterMetadata dcData)
         {
-            string url = this.EurekaRoot + "/" + dcData.InstanceId + "/status?value=OUT_OF_SERVICE";
+            string url = this.EurekaServiceRoot + "/" + dcData.InstanceId + "/status?value=OUT_OF_SERVICE";
             try
             {
                 HttpClient client = new HttpClient();
@@ -173,7 +173,7 @@ namespace Karyon.EurekaIntegration
         // * 500 on failure 
         public async Task<bool> PutInstanceToService(DataCenterMetadata dcData)
         {
-            string url = this.EurekaRoot + "/" + dcData.InstanceId + "/status?value=UP";
+            string url = this.EurekaServiceRoot + "/" + dcData.InstanceId + "/status?value=UP";
             try
             {
                 HttpClient client = new HttpClient();

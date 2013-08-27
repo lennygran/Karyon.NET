@@ -22,7 +22,7 @@ namespace Karyon.EurekaIntegration
         /// <summary>
         /// Gets the application configuration information.
         /// </summary>
-        public LocalAppConfig AppConfig { get; private set; }
+        public KaryonConfig AppConfig { get; private set; }
 
         /// <summary>
         /// Method creates an instance of the controller. 
@@ -32,7 +32,7 @@ namespace Karyon.EurekaIntegration
         public static ApplicationLifecycleController CreateInstance()
         {
             ApplicationLifecycleController lifecycle = new ApplicationLifecycleController();
-            lifecycle.AppConfig = new LocalAppConfig();
+            lifecycle.AppConfig = KaryonConfig.Current;
 
             IMetadataAdapter adapter = null;
             if (lifecycle.AppConfig.DataCenter == DataCenterType.Amazon)
@@ -50,7 +50,7 @@ namespace Karyon.EurekaIntegration
             //create Eureka client
             lifecycle.eureka = new EurekaClient()
             {
-                EurekaPath = lifecycle.AppConfig.EurekaPath,
+                EurekaServiceUrl = lifecycle.AppConfig.EurekaServiceUrls[0],
                 ApplicationName = lifecycle.AppConfig.ApplicationName,
                 ApplicationPort = lifecycle.AppConfig.ApplicationPort,
                 ApplicationSecurePort = lifecycle.AppConfig.ApplicationSecurePort
