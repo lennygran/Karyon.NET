@@ -7,16 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicServiceHost", "BasicSe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Karyon.NET", "Karyon.NET\Karyon.NET.csproj", "{AD134E79-037F-4C0A-963E-2CA081095D9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Karyon.NETTests", "Karyon.NETTests\Karyon.NETTests.csproj", "{61C08FD9-205F-4B71-9ABA-8A751C484C3B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D5A9FA08-8D79-461E-AE53-4F0B988CA957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D5A9FA08-8D79-461E-AE53-4F0B988CA957}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D5A9FA08-8D79-461E-AE53-4F0B988CA957}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{D5A9FA08-8D79-461E-AE53-4F0B988CA957}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{671F4659-7674-40CA-9DA0-E03A514880A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{671F4659-7674-40CA-9DA0-E03A514880A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{671F4659-7674-40CA-9DA0-E03A514880A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -29,6 +27,10 @@ Global
 		{AD134E79-037F-4C0A-963E-2CA081095D9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD134E79-037F-4C0A-963E-2CA081095D9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD134E79-037F-4C0A-963E-2CA081095D9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61C08FD9-205F-4B71-9ABA-8A751C484C3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61C08FD9-205F-4B71-9ABA-8A751C484C3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61C08FD9-205F-4B71-9ABA-8A751C484C3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61C08FD9-205F-4B71-9ABA-8A751C484C3B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

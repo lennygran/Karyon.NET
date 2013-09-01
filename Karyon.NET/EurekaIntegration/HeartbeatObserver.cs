@@ -12,6 +12,7 @@ namespace Karyon.EurekaIntegration
         private System.Timers.Timer timer;
         private DataCenterMetadata DataCenterMetadata;
         IEurekaClient eureka;
+        private IEnumerable<string> EurekaServiceUrls;
 
         /// <summary>
         /// External function performing additional validation for the service health. 
@@ -20,10 +21,11 @@ namespace Karyon.EurekaIntegration
         /// </summary>
         public Func<bool> OnHealthCheck;
 
-        public HeartbeatObserver(IEurekaClient eureka, DataCenterMetadata dcMetadata)
+        public HeartbeatObserver(IEurekaClient eureka, DataCenterMetadata dcMetadata, IEnumerable<string> eurekaServiceUrls)
         {
             this.DataCenterMetadata = dcMetadata;
             this.eureka = eureka;
+            this.EurekaServiceUrls = eurekaServiceUrls;
         }
 
         public void InitializeAndStartTimer()
@@ -48,7 +50,7 @@ namespace Karyon.EurekaIntegration
                         return;
                     }
                 }
-                Task.Run(() => this.eureka.SendHeartbeat(this.DataCenterMetadata)).Wait();
+                EurekaClientExecutor.Wrap(this.eureka).ExecuteWithRetry(() => this.eureka.SendHeartbeat(DataCenterMetadata), this.EurekaServiceUrls);
                 timer.Start();
             }
             catch (Exception ex)

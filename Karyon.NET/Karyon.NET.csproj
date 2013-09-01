@@ -29,6 +29,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>key1.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -54,6 +60,8 @@
   <ItemGroup>
     <Compile Include="EurekaIntegration\AmazonMetadataAdapter.cs" />
     <Compile Include="EurekaIntegration\ApplicationLifecycleController.cs" />
+    <Compile Include="EurekaIntegration\EurekaClientExecutor.cs" />
+    <Compile Include="EurekaIntegration\HttpClientFactory.cs" />
     <Compile Include="EurekaIntegration\KaryonConfig.cs" />
     <Compile Include="EurekaIntegration\MyOwnMetadataAdapter.cs" />
     <Compile Include="EurekaIntegration\EurekaClient.cs" />
@@ -63,6 +71,9 @@
     <Compile Include="EurekaIntegration\IEurekaClient.cs" />
     <Compile Include="Healthcheck\HealthcheckController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="key1.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

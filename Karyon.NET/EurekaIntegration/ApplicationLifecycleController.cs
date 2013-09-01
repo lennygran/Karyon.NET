@@ -31,6 +31,12 @@ namespace Karyon.EurekaIntegration
         /// <returns>Returns an initialized instance of ApplicationLifecycleController class.</returns>
         public static ApplicationLifecycleController CreateInstance()
         {
+            return CreateInstance(new EurekaClient());
+        }
+
+        //to be able to use by unit tests
+        internal static ApplicationLifecycleController CreateInstance(IEurekaClient eureka)
+        {
             ApplicationLifecycleController lifecycle = new ApplicationLifecycleController();
             lifecycle.AppConfig = KaryonConfig.Current;
 
@@ -47,14 +53,12 @@ namespace Karyon.EurekaIntegration
             }
             lifecycle.DataCenterMetadata = Task.Run(() => adapter.Collect()).Result;
 
-            //create Eureka client
-            lifecycle.eureka = new EurekaClient()
-            {
-                EurekaServiceUrl = lifecycle.AppConfig.EurekaServiceUrls[0],
-                ApplicationName = lifecycle.AppConfig.ApplicationName,
-                ApplicationPort = lifecycle.AppConfig.ApplicationPort,
-                ApplicationSecurePort = lifecycle.AppConfig.ApplicationSecurePort
-            };
+            //setup Eureka client
+            lifecycle.eureka = eureka;
+            eureka.EurekaServiceUrl = lifecycle.AppConfig.EurekaServiceUrls[0];
+            eureka.ApplicationName = lifecycle.AppConfig.ApplicationName;
+            eureka.ApplicationPort = lifecycle.AppConfig.ApplicationPort;
+            eureka.ApplicationSecurePort = lifecycle.AppConfig.ApplicationSecurePort;
 
             return lifecycle;
         }
@@ -84,22 +88,21 @@ namespace Karyon.EurekaIntegration
             try
             {
                 Trace.TraceInformation("Registering instance with EUREKA service...");
-                {
-                    Task<bool> task = Task.Run(() => this.eureka.Register(DataCenterMetadata));
-                    task.Wait();
-                    result = task.Result;
-                }
+                result = EurekaClientExecutor.Wrap(this.eureka).ExecuteWithRetry(() => this.eureka.Register(DataCenterMetadata), this.AppConfig.EurekaServiceUrls);
 
-                Trace.TraceInformation("Initializing instance heartbeat...");
-                this.heartbeat = new HeartbeatObserver(this.eureka, this.DataCenterMetadata);
-                if (healthCheck != null)
-                    this.heartbeat.OnHealthCheck = healthCheck;
-                this.heartbeat.InitializeAndStartTimer();
+                if (result)
+                {
+                    Trace.TraceInformation("Initializing instance heartbeat...");
+                    this.heartbeat = new HeartbeatObserver(this.eureka, this.DataCenterMetadata, this.AppConfig.EurekaServiceUrls);
+                    if (healthCheck != null)
+                        this.heartbeat.OnHealthCheck = healthCheck;
+                    this.heartbeat.InitializeAndStartTimer();
+                }
             }
             catch (Exception ex)
             {
                 if (this.eureka != null)
-                    Task.Run(() => this.eureka.Unregister(DataCenterMetadata)).Wait();
+                    EurekaClientExecutor.Wrap(this.eureka).ExecuteWithRetry(() => this.eureka.Unregister(DataCenterMetadata), this.AppConfig.EurekaServiceUrls);
                 if (this.heartbeat != null)
                     this.heartbeat.StopTimer();
                 throw ex;
@@ -113,15 +116,7 @@ namespace Karyon.EurekaIntegration
         /// <returns>Returns boolean indicator of success.</returns>
         public bool UnregisterApplicationInstance()
         {
-            bool result = false;
-            if (this.eureka != null)
-            {
-                Task<bool> task = Task.Run(() => this.eureka.Unregister(DataCenterMetadata));
-                task.Wait();
-                result = task.Result;
-            }
-            else
-                throw new Exception("Current Eureka client is not initialized. This is probably due to incorrect object state.");
+            bool result = EurekaClientExecutor.Wrap(this.eureka).ExecuteWithRetry(() => this.eureka.Unregister(DataCenterMetadata), this.AppConfig.EurekaServiceUrls);
             if (this.heartbeat != null)
                 this.heartbeat.StopTimer();
             return result;
@@ -133,15 +128,7 @@ namespace Karyon.EurekaIntegration
         /// <returns>Returns boolean indicator of success.</returns>
         public bool TakeInstanceOutOfService()
         {
-            bool result = false;
-            if (this.eureka != null)
-            {
-                Task<bool> task = Task.Run(() => this.eureka.TakeInstanceOutOfService(DataCenterMetadata));
-                task.Wait();
-                result = task.Result;
-            }
-            else
-                throw new Exception("Current Eureka client is not initialized. This is probably due to incorrect object state.");
+            bool result = EurekaClientExecutor.Wrap(this.eureka).ExecuteWithRetry(() => this.eureka.TakeInstanceOutOfService(DataCenterMetadata), this.AppConfig.EurekaServiceUrls);
             if (this.heartbeat != null)
                 this.heartbeat.StopTimer();
             return result;
@@ -153,15 +140,7 @@ namespace Karyon.EurekaIntegration
         /// <returns>Returns boolean indicator of success.</returns>
         public bool PutInstanceToService()
         {
-            bool result = false;
-            if (this.eureka != null)
-            {
-                Task<bool> task = Task.Run(() => this.eureka.PutInstanceToService(DataCenterMetadata));
-                task.Wait();
-                result = task.Result;
-            }
-            else
-                throw new Exception("Current Eureka client is not initialized. This is probably due to incorrect object state.");
+            bool result = EurekaClientExecutor.Wrap(this.eureka).ExecuteWithRetry(() => this.eureka.PutInstanceToService(DataCenterMetadata), this.AppConfig.EurekaServiceUrls);
             if (this.heartbeat != null)
                 this.heartbeat.StartTimer();
             return result;

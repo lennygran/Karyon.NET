@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DemoServiceLib")]
+[assembly: AssemblyTitle("Karyon.NETTests1")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DemoServiceLib")]
-[assembly: AssemblyCopyright("Copyright © Lenny Granovsky 2013")]
+[assembly: AssemblyCompany("CompassLearning")]
+[assembly: AssemblyProduct("Karyon.NETTests1")]
+[assembly: AssemblyCopyright("Copyright © CompassLearning 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ffe18680-227b-4808-a1e2-18035d345b2f")]
+[assembly: Guid("0338adb7-6076-42e0-889d-891fb03eb3f6")]
 
 // Version information for an assembly consists of the following four values:
 //

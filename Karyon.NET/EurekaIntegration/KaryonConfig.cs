@@ -128,7 +128,13 @@ namespace Karyon.EurekaIntegration
             XmlNodeList oSubNodes = oNode.SelectNodes("add");
             if (oSubNodes == null)
                 throw new ApplicationException("Cannot find an <eurekaServiceUrl/add> node in karyon.net.config xml.");
-            this.EurekaServiceUrls.Add(oSubNode.InnerText.Trim());
+            foreach (XmlNode node in oSubNodes)
+            {
+                if (node.InnerText.Trim().Length > 0)
+                    this.EurekaServiceUrls.Add(node.InnerText.Trim());
+            }
+            if (this.EurekaServiceUrls.Count == 0)
+                throw new ApplicationException("At least one EurekaServiceUrl must be configured in karyon.net.config xml.");
         }
 
         /// <summary>

@@ -80,7 +80,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DemoServiceLib\DemoServiceLib.csproj">
       <Project>{671f4659-7674-40ca-9da0-e03a514880a0}</Project>
-      <Name>BatchServiceLib</Name>
+      <Name>DemoServiceLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Karyon.NET\Karyon.NET.csproj">
       <Project>{ad134e79-037f-4c0a-963e-2ca081095d9b}</Project>

@@ -19,18 +19,25 @@ namespace Karyon.EurekaIntegration
         {
             get
             {
-                //EXAMPLE: "http://ec2-174-129-161-75.compute-1.amazonaws.com/eureka/v2/apps/BatchService"
+                //EXAMPLE: "http://ec2-174-129-161-75.compute-1.amazonaws.com/eureka/v2/apps/DemoService"
 
                 string tmp = this.EurekaServiceUrl.EndsWith("/") ? this.EurekaServiceUrl : this.EurekaServiceUrl + "/";
                 return string.Join("", new string[] { tmp, "v2/apps/", this.ApplicationName });
             }
         }
+        private IHttpClientFactory httpClientFactory;
 
         public EurekaClient()
+            : this(new HttpClientFactory())
+        {
+        }
+
+        internal EurekaClient(IHttpClientFactory httpClientFactory)
         {
             this.EurekaServiceUrl = "";
             this.ApplicationPort = 80;
             this.ApplicationName = "";
+            this.httpClientFactory = httpClientFactory;
         }
 
         //Register new application instance 
@@ -55,7 +62,7 @@ namespace Karyon.EurekaIntegration
             try
             {
                 System.Net.Http.Formatting.MediaTypeFormatter frm = new System.Net.Http.Formatting.JsonMediaTypeFormatter();
-                client = new HttpClient();
+                client = this.httpClientFactory.CreateInstance();
                 HttpResponseMessage response = await client.PostAsync(url, instanceData, frm, "application/json");
                 //response.EnsureSuccessStatusCode();
                 if (response.StatusCode != System.Net.HttpStatusCode.NoContent)
@@ -69,8 +76,7 @@ namespace Karyon.EurekaIntegration
             }
             catch (Exception ex)
             {
-                Trace.TraceError("Exception on Register: " + ex.ToString());
-                return false;
+                throw ex;
             }
             return true;
         }
@@ -83,7 +89,7 @@ namespace Karyon.EurekaIntegration
             string url = this.EurekaServiceRoot + "/" + dcData.InstanceId;
             try
             {
-                HttpClient client = new HttpClient();
+                HttpClient client = this.httpClientFactory.CreateInstance();
                 HttpResponseMessage response = await client.DeleteAsync(url);
                 //response.EnsureSuccessStatusCode();
                 if (response.StatusCode != System.Net.HttpStatusCode.OK)
@@ -97,8 +103,7 @@ namespace Karyon.EurekaIntegration
             }
             catch (Exception ex)
             {
-                Trace.TraceError("Exception on Unregister: " + ex.ToString());
-                return false;
+                throw ex;
             }
             return true;
         }
@@ -113,7 +118,7 @@ namespace Karyon.EurekaIntegration
             string url = this.EurekaServiceRoot + "/" + dcData.InstanceId;
             try
             {
-                HttpClient client = new HttpClient();
+                HttpClient client = this.httpClientFactory.CreateInstance();
                 System.Net.Http.Formatting.MediaTypeFormatter frm = new System.Net.Http.Formatting.JsonMediaTypeFormatter();
                 HttpResponseMessage response = await client.PutAsync(url, "", frm, "application/json");
                 //response.EnsureSuccessStatusCode();
@@ -124,14 +129,16 @@ namespace Karyon.EurekaIntegration
                     return false;
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
                     Trace.TraceWarning("Heartbeat failed. Instance does not exist.");
+                    return false;
+                }
                 else
                     Trace.TraceInformation("Heartbeat has been successfully submitted.");
             }
             catch (Exception ex)
             {
-                Trace.TraceError("Exception on Heartbeat: " + ex.ToString());
-                return false;
+                throw ex;
             }
             return true;
         }
@@ -146,7 +153,7 @@ namespace Karyon.EurekaIntegration
             string url = this.EurekaServiceRoot + "/" + dcData.InstanceId + "/status?value=OUT_OF_SERVICE";
             try
             {
-                HttpClient client = new HttpClient();
+                HttpClient client = this.httpClientFactory.CreateInstance();
                 System.Net.Http.Formatting.MediaTypeFormatter frm = new System.Net.Http.Formatting.JsonMediaTypeFormatter();
                 HttpResponseMessage response = await client.PutAsync(url, "", frm, "application/json");
                 if (response.StatusCode != System.Net.HttpStatusCode.OK)
@@ -160,8 +167,7 @@ namespace Karyon.EurekaIntegration
             }
             catch (Exception ex)
             {
-                Trace.TraceError("Exception on TakeInstanceOutOfService: " + ex.ToString());
-                return false;
+                throw ex;
             }
             return true;
         }
@@ -176,7 +182,7 @@ namespace Karyon.EurekaIntegration
             string url = this.EurekaServiceRoot + "/" + dcData.InstanceId + "/status?value=UP";
             try
             {
-                HttpClient client = new HttpClient();
+                HttpClient client = this.httpClientFactory.CreateInstance();
                 System.Net.Http.Formatting.MediaTypeFormatter frm = new System.Net.Http.Formatting.JsonMediaTypeFormatter();
                 HttpResponseMessage response = await client.PutAsync(url, "", frm, "application/json");
                 if (response.StatusCode != System.Net.HttpStatusCode.OK)
@@ -190,8 +196,7 @@ namespace Karyon.EurekaIntegration
             }
             catch (Exception ex)
             {
-                Trace.TraceError("Exception on TakeInstanceDown: " + ex.ToString());
-                return false;
+                throw ex;
             }
             return true;
         }

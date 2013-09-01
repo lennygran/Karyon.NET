@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Karyon.NET")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("CompassLearning")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Karyon.NET")]
-[assembly: AssemblyCopyright("Copyright © CompassLearning 2013")]
+[assembly: AssemblyCopyright("Copyright © Lenny Granovsky 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,12 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("0.7.0.0")]
+[assembly: AssemblyFileVersion("0.7.0.0")]
+
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Karyon.NETTests,PublicKey=" +
+"00240000048000009400000006020000002400005253413100040000010001000d5fac41274988" +
+"5b255bd4ecc2794768e1e0fd9aefd323c6bf51ddffb5c474cf3a458b47ee86aaeb97050ac9a3f4" +
+"24c7d71666ba77b6d4c326d2796f70575bc3a1a66d77a7989ff60c87020bf90ea9da29e2569cb3" +
+"b0e9da587ba6f039e9aa7a1319843ec92259365b37fea719cea41471a44af1ba9d5cad6da30dd3" +
+"841a84cf")]
